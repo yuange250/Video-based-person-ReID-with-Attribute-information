@@ -8,7 +8,7 @@ If you find this help your research, please cite
 This repository contains a project which firstly introducing the pedestrain attribute information into video-based Re-ID, we address this issue by introducing a new metric learning method called Attribute-aware Identity-hard Triplet Loss (AITL), which reduces the intra-class variation among positive samples via calculating attribute distance. To achieve a complete model of video-based person Re-ID, a multitask framework with Attribute-driven Spatio-Temporal Attention (ASTA) mechanism is also proposed. 
 #### 1. Attribute-aware Identity-hard Triplet Loss 
 The batch-hard triplet loss frequently used in video-based person Re-ID suffers from the Distanc eVariance among Different Positives(DVDP) problem.
-![DVDP](./display_images/pic.jpg)
+![DVDP](./display_images/pic.png)
 
 Attribute-aware Identity-hard Triplet Loss to solve the DVDP.
 ![AITL](./display_images/pic2.png)
