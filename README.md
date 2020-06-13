@@ -1,52 +1,88 @@
-# Video-Person-ReID
+# Video-based-person-ReID-with-Attribute-information
 
-This is the code repository for our tech report "Revisiting Temporal Modeling for Video-based Person ReID": https://arxiv.org/abs/1805.02104.
+This is the code repository for our paper "": https://arxiv.org/abs/.
 If you find this help your research, please cite
-
-    @article{gao2018revisiting,
-      title={Revisiting Temporal Modeling for Video-based Person ReID},
-      author={Gao, Jiyang and Nevatia, Ram},
-      journal={arXiv preprint arXiv:1805.02104},
-      year={2018}
-    }
+    
 
 ### Introduction
-This repository contains PyTorch implementations of temporal modeling methods for video-based person reID. It is forked from [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid).. Based on that, I implement (1) video sampling strategy for training and testing, (2) temporal modeling methods including temporal pooling, temporal attention, RNN and 3D conv. The base loss function and basic training framework remain the same as [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid). **PyTorch 0.3.1, Torchvision 0.2.0 and Python 2.7** is used.
+This repository contains a project which firstly introducing the pedestrain attribute information into video-based Re-ID, we address this issue by introducing a new metric learning method called Attribute-aware Identity-hard Triplet Loss (AITL), which reduces the intra-class variation among positive samples via calculating attribute distance. To achieve a complete model of video-based person Re-ID, a multitask framework with Attribute-driven Spatio-Temporal Attention (ASTA) mechanism is also proposed. 
+#### 1. Attribute-aware Identity-hard Triplet Loss 
+The batch-hard triplet loss frequently used in video-based person Re-ID suffers from the Distanc eVariance among Different Positives(DVDP) problem.
+![DVDP](./display_images/pic.png)
 
-### Motivation
-Although previous work proposed many temporal modeling methods and did extensive experiments, but it's still hard for us to have an "apple-to-apple" comparison across these methods. As the image-level feature extractor and loss function are not the same, which have large impact on the final performance. Thus, we want to test the representative methods under an uniform framework.
+Attribute-aware Identity-hard Triplet Loss to solve the DVDP.
+![DVDP](./display_images/pic2.png)
+
+#### 2. Attribute-driven Spatio-Temporal Attention 
+Introducing the spatial-temporal attention in attribute recognition process into Re-ID process.
+![DVDP](./display_images/pic1.png)
+
+
+### Deployment
+It is mainly forked from [video-person-reid](https://github.com/jiyanggao/Video-Person-ReID) and [reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline). Since I suffered from severe poverty, I introduce the [nvidia-apex](https://github.com/NVIDIA/apex) to train the model in FP16 settings, so the training codes can be directly ran on a single RTX2070s, which is very friendly to proletarians like me. 
+If you owes a 32GB V100 Graphic Card or 2 * GTX 1080Ti Cards, you can just ignore the apex operation and run the codes on a single card, and increase the batch size to 128, the u can get a higher performance :).
+
+Requirements:
+```
+pytorch >= 0.4.1 ( < 1.5.0 apex is not friendly to pytorch 1.5.0 according to my practice)
+torchvision >= 0.2.1
+tqdm
+[nvidia-apex](https://github.com/NVIDIA/apex), please follow the detailed install instructions 
+```
+
 
 ### Dataset
-All experiments are done on MARS, as it is the largest dataset available to date for video-based person reID. Please follow [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid) to prepare the data. The instructions are copied here: 
+#### MARS
+Experiments on MARS, as it is the largest dataset available to date for video-based person reID. Please follow [deep-person-reid](https://github.com/KaiyangZhou/deep-person-reid) to prepare the data. The instructions are copied here: 
 
-1. Create a directory named `mars/` under `data/`.
-2. Download dataset to `data/mars/` from http://www.liangzheng.com.cn/Project/project_mars.html.
+1. Create a directory named `mars/`.
+2. Download dataset to `mars/` from http://www.liangzheng.com.cn/Project/project_mars.html.
 3. Extract `bbox_train.zip` and `bbox_test.zip`.
 4. Download split information from https://github.com/liangzheng06/MARS-evaluation/tree/master/info and put `info/` in `data/mars` (we want to follow the standard split in [8]). The data structure would look like:
+5. Download `mars_attributes.csv` from http://irip.buaa.edu.cn/mars_duke_attributes/index.html, and put the file in `data/mars`. The data structure would look like:
 ```
 mars/
     bbox_test/
     bbox_train/
     info/
+    mars_attributes.csv
 ```
-5. Use `-d mars` when running the training code.
+6. Change the global variable `_C.DATASETS.ROOT_DIR` to `/path2mars/mars` and `_C.DATASETS.NAME` to `mars` in config or configs.
+
+#### Duke-VID
+1. Create a directory named `duke/` under `data/`.
+2. Download dataset to `data/duke/` from http://vision.cs.duke.edu/DukeMTMC/data/misc/DukeMTMC-VideoReID.zip.
+3. Extract `DukeMTMC-VideoReID.zip`.
+4. Download `duke_attributes.csv` from http://irip.buaa.edu.cn/mars_duke_attributes/index.html, and put the file in `data/duke`. The data structure would look like:
+```
+duke/
+    train/
+    gallery/
+    query/
+    duke_attributes.csv
+```
+5. Change the global variable `_C.DATASETS.ROOT_DIR` to `/path2duke/duke` and `_C.DATASETS.NAME` to `duke` in config or configs.
 
 ### Usage
 To train the model, please run
 
-    python main_video_person_reid.py --arch=resnet50tp
-arch could be resnet50tp (Temporal Pooling), resnet50ta (Temporal Attention), resnet50rnn (RNN), resnet503d (3D conv). For 3D conv, I use the design and implementation from [3D-ResNets-PyTorch](https://github.com/kenshohara/3D-ResNets-PyTorch), just minor modification is done to fit the network into this person reID system.
+    python main_baseline.py
+ 
+Please modifies the settings directly on the config files.   
 
-In my experiments, I found that learning rate has a significant impact on the final performance. Here are the learning rates I used (may not be the best): 0.0003 for temporal pooling, 0.0003 for temporal attention, 0.0001 for RNN, 0.0001 for 3D conv.
-
-Other detailed settings for different temporal modeling could be found in `models/ResNet.py`
 
 ### Performance
 
-| Model            | mAP |CMC-1 | CMC-5 | CMC-10 | CMC-20 |
-| :--------------- | ----------: | ----------: | ----------: | ----------: | ----------: | 
-| image-based      |   74.1  | 81.3 | 92.6 | 94.8 | 96.7 |
-| pooling    |   75.8  | 83.1 | 92.8 | 95.3 | 96.8   |
-| attention    |  76.7 | 83.3 | 93.8 | 96.0 | 97.4 |
-| rnn    |   73.9 | 81.6 | 92.8 | 94.7 | 96.3 |
-| 3d conv    |  70.5 | 78.5 | 90.9 | 93.9 | 95.9 |
+
+#### Comparision with SOTA
+![Computation-performance Balance](./display_images/pic4.png)
+***The above performance is achieved in the setting: 2 * 1080Ti, train batchsize 128. (Once i was a middle-class deepnetwork-finetuner when i was in school.)***
+
+**Best performance on MARS(1 * RTX 2070s, train batchsize 64)**: (Now i'm a proletarian. 要为了真理而斗争！)
+
+mAP : 82.5%  Rank-1 : 86.5%
+
+#### Better trade-off between speed and performance:
+![Computation-performance Balance](./display_images/pic3.png)
+
+More experiments result can be found in paper.
