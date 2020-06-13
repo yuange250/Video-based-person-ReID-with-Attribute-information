@@ -11,12 +11,11 @@ The batch-hard triplet loss frequently used in video-based person Re-ID suffers 
 ![DVDP](./display_images/pic.png)
 
 Attribute-aware Identity-hard Triplet Loss to solve the DVDP.
-![DVDP](./display_images/pic2.png)
+![AITL](./display_images/pic2.png)
 
 #### 2. Attribute-driven Spatio-Temporal Attention 
 Introducing the spatial-temporal attention in attribute recognition process into Re-ID process.
-![DVDP](./display_images/pic1.png)
-
+![ASTA](./display_images/pic1.png)
 
 ### Deployment
 It is mainly forked from [video-person-reid](https://github.com/jiyanggao/Video-Person-ReID) and [reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline). Since I suffered from severe poverty, I introduce the [nvidia-apex](https://github.com/NVIDIA/apex) to train the model in FP16 settings, so the training codes can be directly ran on a single RTX2070s, which is very friendly to proletarians like me. 
@@ -75,7 +74,7 @@ Please modifies the settings directly on the config files.
 
 
 #### Comparision with SOTA
-![Computation-performance Balance](./display_images/pic4.png)
+![Comparision with SOTA](./display_images/pic4.png)
 ***The above performance is achieved in the setting: 2 * 1080Ti, train batchsize 128. (Once i was a middle-class deepnetwork-finetuner when i was in school.)***
 
 **Best performance on MARS(1 * RTX 2070s, train batchsize 64)**: (Now i'm a proletarian. 要为了真理而斗争！)
