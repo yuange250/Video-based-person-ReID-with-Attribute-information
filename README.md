@@ -1,6 +1,6 @@
 # Video-based-person-ReID-with-Attribute-information
 
-This is the code repository for our paper "": https://arxiv.org/abs/.
+This is the code repository for our paper "Attribute-aware Identity-hard Triplet Loss for Video-based Person Re-identification": https://arxiv.org/pdf/2006.07597.pdf.
 If you find this help your research, please cite
     
 
