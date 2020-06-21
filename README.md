@@ -19,7 +19,7 @@ Introducing the spatial-temporal attention in attribute recognition process into
 
 ### Deployment
 It is mainly forked from [video-person-reid](https://github.com/jiyanggao/Video-Person-ReID) and [reid-strong-baseline](https://github.com/michuanhaohao/reid-strong-baseline). Since I suffered from severe poverty, I introduce the [nvidia-apex](https://github.com/NVIDIA/apex) to train the model in FP16 settings, so the training codes can be directly ran on a single RTX2070s, which is very friendly to proletarians like me. 
-If you owes a 32GB V100 Graphic Card or 2 * GTX 1080Ti Cards, you can just ignore the apex operation and run the codes on a single card, and increase the batch size to 128, the u can get a higher performance :).
+If you owes a 32GB V100 Graphic Card or 2 * GTX 1080Ti Cards, you can just ignore the apex operation and run the codes on a single card, and increase the batch size to 64, the u can get a higher performance :).
 
 Requirements:
 ```
@@ -75,9 +75,9 @@ Please modifies the settings directly on the config files.
 
 #### Comparision with SOTA
 ![Comparision with SOTA](./display_images/pic4.png)
-***The above performance is achieved in the setting: 2 * 1080Ti, train batchsize 128. (Once i was a middle-class deepnetwork-finetuner when i was in school.)***
+***The above performance is achieved in the setting: 2 * 1080Ti, train batchsize 64. (Once i was a middle-class deepnetwork-finetuner when i was in school.)***
 
-**Best performance on MARS(1 * RTX 2070s, train batchsize 64)**: (Now i'm a proletarian. 要为了真理而斗争！)
+**Best performance on MARS(1 * RTX 2070s, train batchsize 32)**: (Now i'm a proletarian. 要为了真理而斗争！)
 
 mAP : 82.5%  Rank-1 : 86.5%
 
