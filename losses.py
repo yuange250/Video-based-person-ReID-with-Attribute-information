@@ -306,15 +306,14 @@ class TripletLossAttrWeightes(nn.Module):
             targets: ground truth labels with shape (num_classes)
         """
         n = inputs.size(0)
-        # w_dis = euclidean_dist(weights_vector, weights_vector)
-        # w_dis.argmax()
         # Compute pairwise distance, replace by the official when merged
         if self.dis_type == "cosine":
             inputs = inputs / (inputs ** 2).sum(dim=1, keepdim=True).sqrt()
             dist = 1 - inputs.mm(inputs.t())
         elif self.dis_type == "euclid":
             dist = euclidean_dist(inputs, inputs)
-        w_dis = dist
+        # w_dis = dist
+        w_dis = euclidean_dist(weights_vector, weights_vector)
         # For each anchor, find the hardest positive and negative
         mask = targets.expand(n, n).eq(targets.expand(n, n).t())
         dist_ap, dist_an = [], []
