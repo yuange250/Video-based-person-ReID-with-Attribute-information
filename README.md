@@ -77,7 +77,7 @@ Please modifies the settings directly on the config files.
 ![Comparision with SOTA](./display_images/pic4.png)
 ***The above performance is achieved in the setting: 2 * 1080Ti, train batchsize 64. (Once i was a middle-class deepnetwork-finetuner when i was in school.)***
 
-**Best performance on MARS(1 * RTX 2070s, train batchsize 32)**: (Now i'm a proletarian. 要为了真理而斗争！)
+**Best performance on lower devices(MARS, 1 * RTX 2070s, train batchsize 32)**: (Now i'm a proletarian. 要为了真理而斗争！)
 
 mAP : 82.5%  Rank-1 : 86.5%
 
