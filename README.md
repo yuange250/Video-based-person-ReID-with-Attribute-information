@@ -4,10 +4,15 @@ This is the code repository for our paper "Attribute-aware Identity-hard Triplet
 If you find this help your research, please cite it.
     
 @article{chen2020attribute,
+
   title={Attribute-aware Identity-hard Triplet Loss for Video-based Person Re-identification},
+  
   author={Chen, Zhiyuan and Li, Annan and Jiang, Shilu and Wang, Yunhong},
+  
   journal={arXiv preprint arXiv:2006.07597},
+  
   year={2020}
+  
 }
 
 ### Introduction
